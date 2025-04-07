@@ -380,9 +380,9 @@ if dados:
         mapa_cores = {
             "Novo": "#1f77b4",               # azul claro
             "Cartão": "#ff7f0e",             # laranja vibrante
-            "Benefício": "#2ca02c",          # verde claro
+            "Benefício": "#50fa7b",          # verde claro
             "Benefício e Cartão": "#d62728", # vermelho vibrante
-            "Port": "#9467bd"                # roxo claro
+            "Port": "#ffffff"                # roxo claro
         }
             
         col1, col2 = st.columns(2)
