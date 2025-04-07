@@ -693,10 +693,7 @@ if dados:
         )
 
         fig.update_layout(
-            title=f"Cohort por {evento_escolhido}",
-            title_font_size=22,
             height=600,
-            font=dict(size=22),
             xaxis=dict(
                 title=f"Dias até {evento_escolhido.lower()}",
                 title_font=dict(size=16),
