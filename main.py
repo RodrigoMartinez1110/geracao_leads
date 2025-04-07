@@ -128,8 +128,9 @@ if dados:
 
         # Se o nome do arquivo contém "gasto", carregamos no df_gasto
         if "gasto" in nome_arquivo:
-            df_gasto = pd.read_csv(arquivo, sep=';') 
+            df_gasto = pd.read_csv(arquivo, sep=',') 
             df_gasto = tratar_arquivo_pagos(df_gasto)
+            
 
     
     st.sidebar.write('---')
@@ -815,4 +816,3 @@ if dados:
         )
 
         st.plotly_chart(fig, use_container_width=True)
-
