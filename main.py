@@ -692,26 +692,6 @@ if dados:
             text_auto=".1f"
         )
 
-        fig.update_layout(
-            height=600,
-            xaxis=dict(
-                title=f"Dias até {evento_escolhido.lower()}",
-                title_font=dict(size=16),
-                tickfont=dict(size=12)
-            ),
-            yaxis=dict(
-                title="Data de entrada (cohort)",
-                title_font=dict(size=16),
-                tickfont=dict(size=12)
-            ),
-            coloraxis_colorbar=dict(
-                title="Conversão (%)",
-                titlefont=dict(size=14),
-                tickfont=dict(size=12),
-                ticksuffix="%"
-            )
-        )
-
         st.plotly_chart(fig, use_container_width=True)
             
 
