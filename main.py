@@ -294,7 +294,7 @@ if dados:
 
     #Valor total gerado
     with col4:
-        valor_total_gerado = df_filtrado['comissao_gerada'].sum()
+        valor_total_gerado = df_filtrado.loc[df_filtrado['etapa'] == 'PAGO', 'comissao_gerada'].sum()
         valor_formatado = f"R$ {valor_total_gerado:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")  # Formatação BR
         st.markdown(f'<div class="kpi-container"><div class="kpi-title">Valor Total Gerado</div><div class="kpi-value">{valor_formatado}</div></div>', unsafe_allow_html=True)
 
@@ -693,6 +693,28 @@ if dados:
             text_auto=".1f"
         )
 
+        fig.update_layout(
+            height=800,
+            width=1000,
+            font=dict(
+                size=20  # tamanho geral da fonte
+            ),
+            xaxis=dict(
+                title='',
+                title_font=dict(size=24),
+                tickfont=dict(size=20)
+            ),
+            yaxis=dict(
+                title='',
+                title_font=dict(size=24),
+                tickfont=dict(size=20)
+            ),
+            coloraxis_colorbar=dict(
+                title_font=dict(size=16),
+                tickfont=dict(size=20)
+            )
+        )
+
         st.plotly_chart(fig, use_container_width=True)
             
 
@@ -739,7 +761,8 @@ if dados:
 
         fig.update_traces(
             texttemplate='R$ %{text:.2f}',
-            textposition='outside'
+            textposition='outside',
+            textfont=dict(size=20, color='white', family='Arial')
         )
 
         fig.update_layout(
@@ -747,8 +770,16 @@ if dados:
             height=800,
             xaxis_title="CAC (R$)",
             yaxis_title="",
-            font=dict(size=14),
-            xaxis_tickprefix='R$ '
+            font=dict(size=14),  # fonte geral (legendas, título, etc.)
+            xaxis=dict(
+                title_font=dict(size=22),
+                tickfont=dict(size=22),
+                tickprefix='R$ '
+            ),
+            yaxis=dict(
+                title_font=dict(size=22),
+                tickfont=dict(size=22)
+            )
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -804,7 +835,8 @@ if dados:
 
         fig.update_traces(
             texttemplate='%{text:.2f}%',
-            textposition='outside'
+            textposition='outside',
+            textfont_size=20  # tamanho da fonte dos valores nas barras
         )
 
         fig.update_layout(
@@ -812,7 +844,15 @@ if dados:
             height=800,
             xaxis_title="ROI (%)",
             yaxis_title="",
-            font=dict(size=14)
+            font=dict(size=20),  # fonte geral
+            xaxis=dict(
+                title_font=dict(size=20),
+                tickfont=dict(size=20)
+            ),
+            yaxis=dict(
+                title_font=dict(size=20),
+                tickfont=dict(size=20)
+            )
         )
 
         st.plotly_chart(fig, use_container_width=True)
