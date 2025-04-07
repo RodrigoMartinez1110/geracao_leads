@@ -649,7 +649,7 @@ if dados:
         }
 
         # Input do usuário para escolher o evento
-        evento_escolhido = st.selectbox("Selecione o evento para análise de cohort:", list(opcoes_evento.keys()))
+        evento_escolhido = st.selectbox("Selecione o evento para análise de cohort:", list(opcoes_evento.keys()), )
         coluna_evento = opcoes_evento[evento_escolhido]
 
         # Define cohort pela data de entrada
@@ -693,7 +693,7 @@ if dados:
         )
 
         fig.update_layout(
-            title=f"",
+            title=f"Cohort por {evento_escolhido}",
             title_font_size=22,
             height=600,
             font=dict(size=22),
