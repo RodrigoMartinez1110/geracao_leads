@@ -693,7 +693,7 @@ if dados:
         )
 
         fig.update_layout(
-            title=f"Cohort por {evento_escolhido}",
+            title=f"",
             title_font_size=22,
             height=600,
             font=dict(size=22),
