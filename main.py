@@ -131,8 +131,8 @@ if dados:
             df_gasto = pd.read_csv(arquivo, sep=',') 
             df_gasto = tratar_arquivo_pagos(df_gasto)
             
+            
 
-    
     st.sidebar.write('---')
     st.sidebar.title('Filtros')
     # Filtros
@@ -317,8 +317,8 @@ if dados:
 
         df_filtrado_temp = df_filtrado.loc[df_filtrado['etapa'] == 'PAGO']
         
-        gasto_convenios = df_gasto.groupby(['Convênio', 'Produto'])['Valor Gasto'].sum().reset_index(name='gasto_total')
-        gerado_convenios = df_filtrado_temp.groupby(['convenio_acronimo', 'produto'])['comissao_gerada'].sum().reset_index(name='comissao_gerada')
+        gasto_convenios = df_gasto.groupby(['Convênio', 'Produto'])['Valor Gasto'].sum().reset_index(name='gasto_total').round(2)
+        gerado_convenios = df_filtrado_temp.groupby(['convenio_acronimo', 'produto'])['comissao_gerada'].sum().reset_index(name='comissao_gerada').round(2)
         
         gasto_convenios.rename(columns={
             'Convênio': 'convenio_acronimo',
