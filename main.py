@@ -361,8 +361,6 @@ if dados:
 
         convenios_completo['conv_prod'] = convenios_completo['convenio_acronimo'] + ' - ' + convenios_completo['produto']
 
-
-        convenios_completo
         df_long = pd.melt(
             convenios_completo,
             id_vars='conv_prod',
