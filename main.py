@@ -406,7 +406,7 @@ if dados:
             ),
             legend=dict(
                 font=dict(
-                    size=18  # Altere esse valor conforme necessário
+                    size=24  # Altere esse valor conforme necessário
                 )
             )
         )
