@@ -100,8 +100,9 @@ def tratar_arquivo_hubspot(dataframe):
     dataframe.loc[dataframe['equipe'].str.contains('Sales', case=False, na=False), 'equipe'] = 'Sales'
     dataframe.loc[dataframe['equipe'].str.contains('Cs Ativação', case=False, na=False), 'equipe'] = 'Cs Ativacao'
     dataframe.loc[dataframe['equipe'].str.contains('Cs App', case=False, na=False), 'equipe'] = 'Cs App'
+    dataframe.loc[dataframe['equipe'].str.contains('Cs Cp', case=False, na=False), 'equipe'] = 'Cs Cp'
+    dataframe.loc[dataframe['equipe'].str.contains('Cs Cdx', case=False, na=False), 'equipe'] = 'Cs Cdx'
 
-    
     dataframe['data_criado'] = pd.to_datetime(dataframe['data_criado'], errors='coerce')
     dataframe['data'] = dataframe['data_criado'].dt.date
     dataframe['horario_criado'] = dataframe['data_criado'].dt.time
@@ -118,6 +119,8 @@ def tratar_arquivo_pagos(dataframe):
     dataframe['data'] = pd.to_datetime(dataframe['Data'], errors='coerce', dayfirst=True).dt.date
     dataframe['Valor Gasto'] = (dataframe['Canal'].map({'SMS': 0.047, 'RCS': 0.105, 'HYPERFLOW': 0.4368}) * dataframe['Quantidade']).round(2)
     return dataframe
+
+
 
 # Carregar dados
 st.sidebar.title('Carregar dados')
@@ -191,6 +194,7 @@ if dados:
     df_gasto = df_gasto.loc[df_gasto['Produto'].isin(produto)]
     df_gasto = df_gasto.loc[df_gasto['Canal'].isin(origem)]
     df_gasto = df_gasto.loc[df_gasto['Equipe'].isin(equipe)]
+
     
     # Função para filtrar dias úteis
     def filtrar_dias_uteis(df, data_inicio, data_fim):
@@ -350,6 +354,8 @@ if dados:
 
         convenios_completo['conv_prod'] = convenios_completo['convenio_acronimo'] + ' - ' + convenios_completo['produto']
 
+
+        convenios_completo
         df_long = pd.melt(
             convenios_completo,
             id_vars='conv_prod',
