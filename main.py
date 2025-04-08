@@ -113,7 +113,11 @@ def tratar_arquivo_hubspot(dataframe):
     dataframe['data_contratacao'] = pd.to_datetime(dataframe['data_contratacao'], errors='coerce').dt.date
     dataframe['data_pago'] = pd.to_datetime(dataframe['data_pago'], errors='coerce').dt.date
 
-    dataframe.loc[dataframe['origem'].str.contains('HYPERFLOW', case=False, na=False), 'equipe'] = 'Sales'
+    dataframe.loc[
+        (dataframe['equipe'] == 'Sales') &
+        (dataframe['origem'].str.contains('HYPERFLOW', case=False, na=False)),
+        'origem'
+    ] = 'RCS'
     
     return dataframe
 
@@ -121,8 +125,6 @@ def tratar_arquivo_pagos(dataframe):
     dataframe['data'] = pd.to_datetime(dataframe['Data'], errors='coerce', dayfirst=True).dt.date
     dataframe['Valor Gasto'] = (dataframe['Canal'].map({'SMS': 0.047, 'RCS': 0.105, 'HYPERFLOW': 0.4368}) * dataframe['Quantidade']).round(2)
     return dataframe
-
-
 
 # Carregar dados
 st.sidebar.title('Carregar dados')
@@ -142,6 +144,7 @@ if dados:
         if "gasto" in nome_arquivo:
             df_gasto = pd.read_csv(arquivo, sep=',') 
             df_gasto = tratar_arquivo_pagos(df_gasto)
+        
             
             
 
