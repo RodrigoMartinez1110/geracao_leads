@@ -116,7 +116,7 @@ def tratar_arquivo_hubspot(dataframe):
 
 def tratar_arquivo_pagos(dataframe):
     dataframe['data'] = pd.to_datetime(dataframe['Data'], errors='coerce', dayfirst=True).dt.date
-    dataframe['Valor Gasto'] = (dataframe['Canal'].map({'SMS': 0.047, 'RCS': 0.105}) * dataframe['Quantidade']).round(2)
+    dataframe['Valor Gasto'] = (dataframe['Canal'].map({'SMS': 0.047, 'RCS': 0.105, 'HYPERFLOW': 0.4368}) * dataframe['Quantidade']).round(2)
     return dataframe
 
 # Carregar dados
