@@ -84,7 +84,11 @@ def tratar_arquivo_hubspot(dataframe):
             'governo de mato grosso do sul': 'GOV MS',
             'governo de mato grosso': 'GOV MT',
             'governo do piauí': 'GOV PI',
-            'prefeitura de joão pessoa': 'PREF JP'
+            'prefeitura de joão pessoa': 'PREF JP',
+            'governo do espírito santo': 'GOV ES',
+            'inss': 'INSS',
+            '': 'Vazio',
+            'siape': 'SIAPE'
         }
         
         return mapeamento.get(convenio, convenio)
@@ -310,8 +314,11 @@ if dados:
         delta_class = 'kpi-delta-positive' if delta_taxa >= 0 else 'kpi-delta-negative'
         st.markdown(f'<div class="kpi-container"><div class="kpi-title">Lucro Bruto</div><div class="kpi-value">{valor_formatado}</div></div>', unsafe_allow_html=True)
 
+
+# ==========================================================================================================================================
+# ==========================================================================================================================================
     
-    with st.expander("Gasto por Convênio e Produto"):
+    with st.expander("Gráfico 1: Gasto por Convênio e Produto"):
         # Seletor para número de convênios
         top_n = st.slider("Quantos convênios deseja visualizar?", min_value=5, max_value=40, value=10, step=1)
 
@@ -364,26 +371,32 @@ if dados:
         )
 
         fig.update_layout(
-            height=1000,
-            width=1800,
-            xaxis_tickangle=-50,
+            title='Gasto vs Pagos - Convênios',
+            height=700,
+            width=1200,
+            xaxis_tickangle=0,
             bargap=0.4,
             bargroupgap=0.2,
             xaxis=dict(
-                tickfont=dict(size=18)
+                title='',
+                tickfont=dict(size=16)
+            ),
+            yaxis=dict(
+                title='',       
+                tickfont=dict(size=15)
             )
+
         )
 
         st.plotly_chart(fig)
     
-    #Gráfico de leads gerados por convênio
-    with st.expander("Geração de leads"):
+    with st.expander("Gráfico 2: Geração de leads"):
         mapa_cores = {
-            "Novo": "#1f77b4",               # azul claro
-            "Cartão": "#ff7f0e",             # laranja vibrante
-            "Benefício": "#50fa7b",          # verde claro
-            "Benefício e Cartão": "#d62728", # vermelho vibrante
-            "Port": "#ffffff"                # roxo claro
+            "Novo": "#4F8AC9",               # azul acinzentado
+            "Cartão": "#6FC1FF",             # azul claro neon
+            "Benefício": "#5ED5B3",          # verde água
+            "Benefício e Cartão": "#B08CFF", # lilás frio
+            "Port": "#A1B3D1"                # cinza azulado claro
         }
             
         col1, col2 = st.columns(2)
@@ -401,15 +414,23 @@ if dados:
                 color_discrete_map=mapa_cores
             )
             graf1.update_layout(
-                title='1. Leads Gerados por Convênio',
+                title='1. Quantidade de Leads Gerados',
                 xaxis_title='Quantidade',
                 font=dict(size=16),
                 yaxis_title='Convênio',
                 legend_title='Produto',
                 xaxis_tickfont_size=12,
-                height=900,
-                width=800,
-                margin=dict(l=0, r=0, t=30, b=0)
+                height=700,
+                width=700,
+                margin=dict(l=0, r=0, t=30, b=0),
+                xaxis=dict(
+                    title='',
+                    tickfont=dict(size=16)
+                ),
+                yaxis=dict(
+                    title='',       
+                    tickfont=dict(size=15)
+                )
             )
             st.plotly_chart(graf1)
 
@@ -448,30 +469,36 @@ if dados:
                 name='Total de Leads',
                 marker=dict(size=6),
                 hovertemplate='<b>Data:</b> %{x}<br>'  # Exibe a data
-                            + '<b>Total de Leads:</b> %{y}<extra></extra>',  # Exibe a quantidade total
+                            + '<b>Total de Leads:</b> %{y}<extra></extra>',  # Exibe a quantidade total,   
             ))
 
             # Atualizando o layout do gráfico
             fig2.update_layout(
-                title='2. Leads Gerados por Dia por Produto',
+                title='2. Quantidade de Leads Gerados - Diário (Produto)',
                 xaxis_title='Data',
                 yaxis_title='Quantidade de Leads',
                 legend=dict(font=dict(size=10)),
                 xaxis_tickfont_size=12,
-                height=900,
-                width=800,
+                height=700,
+                width=700,
                 bargap=0.1,  # Reduz o espaço entre as barras
                 bargroupgap=0.2,  # Ajusta o espaçamento entre os grupos de barras
                 margin=dict(l=0, r=10, t=25, b=0),
-                showlegend=True
+                showlegend=True,
+                xaxis=dict(
+                    title='',
+                    tickfont=dict(size=16)
+                ),
+                yaxis=dict(
+                    title='',       
+                    tickfont=dict(size=15)
+                )
             )
 
             # Exibindo o gráfico no Streamlit
             st.plotly_chart(fig2)
 
-
-
-    with st.expander("Perda de Leads"):
+    with st.expander("Gráfico 3: Perda de Leads"):
         col1, col2 = st.columns(2)
 
         #Gráfico de leads perdidos por convênio
@@ -486,11 +513,14 @@ if dados:
                 leads_perdidos['quantidade_gerada'] = total_gerado_filtrado  # Usando o total filtrado
                 total_gerado_filtrado = 1
                 leads_perdidos['porcentagem'] = leads_perdidos['quantidade'] / total_gerado_filtrado * 100
+            
+            leads_perdidos = leads_perdidos.head(40)
             graf3 = px.bar(
                 leads_perdidos,
                 x='convenio_acronimo',
                 y='quantidade',
-                title='TOP 5 convênios com mais leads perdidos'
+                title='TOP 5 convênios com mais leads perdidos',
+                color='convenio_acronimo'
             )
 
             # Atualizar layout
@@ -503,8 +533,17 @@ if dados:
                 showlegend=False,
                 xaxis_tickfont_size=12,
                 height=550,
-                width=600,
-                margin=dict(l=0, r=10, t=40, b=0)
+                width=700,
+                xaxis_tickangle=-50,
+                margin=dict(l=0, r=10, t=40, b=0),
+                xaxis=dict(
+                    title='',
+                    tickfont=dict(size=16)
+                ),
+                yaxis=dict(
+                    title='',       
+                    tickfont=dict(size=15)
+                )
             )
 
             # Atualizar traces para incluir motivo_fechamento_agrupado no hover
@@ -550,15 +589,14 @@ if dados:
                 legend_orientation='h',
                 legend_y=1.1,
                 xaxis_tickfont_size=12,
-                height=600,
-                width=750,
+                height=550,
+                width=700,
                 margin=dict(l=30, r=10, t=30, b=0)
             )
 
             st.write(graf4)
 
-    #Gráfico de Boxplot:  Comissão média por convenio dos leads gerados
-    with st.expander("Comissão dos Leads Gerados"):
+    with st.expander("Gráfico 4: Comissão dos Leads Gerados"):
         graf5 = px.box(df_filtrado, x='convenio_acronimo', y='comissao_projetada', title='Comissão média dos leads gerados')
 
         graf5.update_layout(
@@ -570,13 +608,21 @@ if dados:
                 xaxis_tickfont_size=12,
                 height=600,
                 width=1300,
-                margin=dict(l=30, r=10, t=40, b=0)
+                margin=dict(l=30, r=10, t=40, b=0),
+                xaxis=dict(
+                    title='',
+                    tickfont=dict(size=16)
+                ),
+                yaxis=dict(
+                    title='',       
+                    tickfont=dict(size=15)
+                ),
+                xaxis_tickangle=-50,
             )
         
         st.plotly_chart(graf5)
 
-    
-    with st.expander("Funil de Etapas dos Leads"):
+    with st.expander("Gráfico 5: Funil de Etapas dos Leads"):
         # Contagem por datas
         etapas = {
             'LEAD': df_filtrado['data'].notna().sum(),
@@ -627,13 +673,21 @@ if dados:
             xaxis_tickfont_size=12,
             height=800,
             width=1300,
-            margin=dict(l=30, r=10, t=40, b=0)
-        )
+            margin=dict(l=30, r=10, t=40, b=0),
+            xaxis=dict(
+                title='',
+                tickfont=dict(size=16)
+            ),
+            yaxis=dict(
+                title='',       
+                tickfont=dict(size=15)
+            ),
+            xaxis_tickangle=-50,
+            )
 
         st.plotly_chart(fig, use_container_width=True)
 
-
-    with st.expander("Cohort - Eventos Dinâmicos"):
+    with st.expander("Gráfico 6: Cohort - Eventos Dinâmicos"):
         df_cohort = df_filtrado.copy()
         
         # Converte colunas de data
@@ -717,8 +771,7 @@ if dados:
 
         st.plotly_chart(fig, use_container_width=True)
             
-
-    with st.expander("Custo de Aquisição por Convênio"):
+    with st.expander("Gráfico 7: Custo de Aquisição por Convênio"):
         top_n = st.slider("Quantos convênios deseja visualizar?", min_value=5, max_value=40, value=10, step=1, key='key2')
         gasto_convenios = df_gasto.groupby(['Convênio', 'Produto'])['Valor Gasto'].sum().reset_index(name='gasto_total')
         clientes_convenio = df_filtrado.groupby(['convenio_acronimo', 'produto']).size().reset_index(name='clientes')
@@ -784,8 +837,7 @@ if dados:
 
         st.plotly_chart(fig, use_container_width=True)
 
-
-    with st.expander("ROI por Convênio e Produto"):
+    with st.expander("Gráfico 8: ROI por Convênio e Produto"):
         top_n = st.slider("Quantos convênios deseja visualizar?", min_value=5, max_value=40, value=10, step=1, key='key_roi')
 
         # Agrupamentos
@@ -836,15 +888,14 @@ if dados:
         fig.update_traces(
             texttemplate='%{text:.2f}%',
             textposition='outside',
-            textfont_size=20  # tamanho da fonte dos valores nas barras
+            textfont_size=18  # tamanho da fonte dos valores nas barras
         )
 
         fig.update_layout(
             title="ROI por Convênio e Produto",
-            height=800,
             xaxis_title="ROI (%)",
             yaxis_title="",
-            font=dict(size=20),  # fonte geral
+            font=dict(size=18),  # fonte geral
             xaxis=dict(
                 title_font=dict(size=20),
                 tickfont=dict(size=20)
