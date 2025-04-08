@@ -86,6 +86,8 @@ def tratar_arquivo_hubspot(dataframe):
             'governo do piauí': 'GOV PI',
             'prefeitura de joão pessoa': 'PREF JP',
             'governo do espírito santo': 'GOV ES',
+            'governo de minas gerais': 'GOV MG',
+            'governo de santa catarina': 'GOV SC',
             'inss': 'INSS',
             '': 'Vazio',
             'siape': 'SIAPE'
