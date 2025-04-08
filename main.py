@@ -112,6 +112,8 @@ def tratar_arquivo_hubspot(dataframe):
     dataframe['data_negociacao'] = pd.to_datetime(dataframe['data_negociacao'], errors='coerce').dt.date
     dataframe['data_contratacao'] = pd.to_datetime(dataframe['data_contratacao'], errors='coerce').dt.date
     dataframe['data_pago'] = pd.to_datetime(dataframe['data_pago'], errors='coerce').dt.date
+
+    dataframe.loc[dataframe['origem'].str.contains('HYPERFLOW', case=False, na=False), 'equipe'] = 'Sales'
     
     return dataframe
 
@@ -456,6 +458,11 @@ if dados:
                     )
                 )
             )
+
+            graf1.update_traces(
+                textfont_size=40,        # Tamanho da fonte dos textos nas barras
+                textposition='auto'      # Pode ser 'inside', 'outside', 'auto'
+            )
             st.plotly_chart(graf1)
 
         #Gráfico de leads gerados por dia por produto
@@ -519,6 +526,7 @@ if dados:
                 )
             )
 
+
             # Exibindo o gráfico no Streamlit
             st.plotly_chart(fig2)
 
@@ -556,13 +564,13 @@ if dados:
                 legend_y=1.1,
                 showlegend=False,
                 xaxis_tickfont_size=12,
-                height=550,
-                width=700,
+                height=600,
+                width=750,
                 xaxis_tickangle=-50,
                 margin=dict(l=0, r=10, t=40, b=0),
                 xaxis=dict(
                     title='',
-                    tickfont=dict(size=16)
+                    tickfont=dict(size=20)
                 ),
                 yaxis=dict(
                     title='',       
@@ -613,9 +621,17 @@ if dados:
                 legend_orientation='h',
                 legend_y=1.1,
                 xaxis_tickfont_size=12,
-                height=550,
-                width=700,
-                margin=dict(l=30, r=10, t=30, b=0)
+                height=650,
+                width=750,
+                margin=dict(l=30, r=10, t=30, b=0),
+                xaxis=dict(
+                    title='',
+                    tickfont=dict(size=20)
+                ),
+                yaxis=dict(
+                    title='',       
+                    tickfont=dict(size=15)
+                )
             )
 
             st.write(graf4)
