@@ -398,9 +398,14 @@ if dados:
             yaxis=dict(
                 title='',       
                 tickfont=dict(size=15)
+            ),
+            legend=dict(
+                font=dict(
+                    size=18  # Altere esse valor conforme necessário
+                )
             )
-
         )
+
 
         st.plotly_chart(fig)
     
@@ -444,6 +449,11 @@ if dados:
                 yaxis=dict(
                     title='',       
                     tickfont=dict(size=15)
+                ),
+                legend=dict(
+                    font=dict(
+                        size=15  # Altere esse valor conforme necessário
+                    )
                 )
             )
             st.plotly_chart(graf1)
@@ -491,7 +501,7 @@ if dados:
                 title='2. Quantidade de Leads Gerados - Diário (Produto)',
                 xaxis_title='Data',
                 yaxis_title='Quantidade de Leads',
-                legend=dict(font=dict(size=10)),
+                legend=dict(font=dict(size=15)),
                 xaxis_tickfont_size=12,
                 height=700,
                 width=700,
@@ -902,7 +912,7 @@ if dados:
         fig.update_traces(
             texttemplate='%{text:.2f}%',
             textposition='outside',
-            textfont_size=18  # tamanho da fonte dos valores nas barras
+            textfont_size=18
         )
 
         fig.update_layout(
