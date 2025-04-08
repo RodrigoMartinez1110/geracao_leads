@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -905,7 +906,8 @@ if dados:
             yaxis=dict(
                 title_font=dict(size=20),
                 tickfont=dict(size=20)
-            )
+            ), 
+            height=800
         )
 
         st.plotly_chart(fig, use_container_width=True)
