@@ -176,7 +176,7 @@ if dados:
         if not origem:  # Se estiver vazio, considera todos
             origem = origens
 
-    with st.sidebar.expander("Motivo Perda"):
+    with st.sidebar.expander("Motivo de Perda"):
         motivos = df['motivo_fechamento'].unique()
         motivo_unico = st.multiselect('motivo_fechamento', motivos)
         if not motivo_unico:  # Se estiver vazio, considera todos
