@@ -176,6 +176,12 @@ if dados:
         if not origem:  # Se estiver vazio, considera todos
             origem = origens
 
+    with st.sidebar.expander("Motivo Perda"):
+        motivos = df['motivo_fechamento'].unique()
+        motivo_unico = st.multiselect('motivo_fechamento', motivos)
+        if not motivo_unico:  # Se estiver vazio, considera todos
+            motivo_unico = motivos
+
     with st.sidebar.expander('Filtro Data'):
         data_inicio = st.date_input('Data de início', min_value=df['data'].min(), max_value=df['data'].max(), value=df['data'].min())
         data_fim = st.date_input('Data de fim', min_value=df['data'].min(), max_value=df['data'].max(), value=df['data'].max())
@@ -188,6 +194,7 @@ if dados:
     df_filtrado = df_filtrado.loc[df_filtrado['convenio_acronimo'].isin(convenio)]
     df_filtrado = df_filtrado.loc[df_filtrado['etapa'].isin(etapa)]
     df_filtrado = df_filtrado.loc[df_filtrado['origem'].isin(origem)]
+    df_filtrado = df_filtrado.loc[df_filtrado['motivo_fechamento'].isin(motivo_unico)]
 
     df_gasto = df_gasto.loc[df_gasto['Convênio'].isin(convenio)]
     df_gasto = df_gasto[(df_gasto['data'] >= data_inicio) & (df_gasto['data'] <= data_fim)]
